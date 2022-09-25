@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../store/auth-context";
 
 // const emailReducer = (state, action) => {
 //   if (action.type === "USER_INPUT") {
@@ -72,7 +73,7 @@ const loginFormReducer = (state, action) => {
   };
 };
 
-const Login = (props) => {
+const Login = () => {
   // const [enteredEmail, setEnteredEmail] = useState("");
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState("");
@@ -117,36 +118,38 @@ const Login = (props) => {
   //   };
   // }, [enteredEmail, enteredPassword]);
 
+  const authCtx = useContext(AuthContext);
+
   const emailChangeHandler = (event) => {
     dispatchLoginForm({ type: "EMAIL", val: event.target.value });
     // dispatchEmail({ type: "USER_INPUT", val: event.target.value });
     // setEnteredEmail(event.target.value);
     // setFormIsValid(emailState.isValid && passwordState.isValid);
-  };;
+  };
 
   const passwordChangeHandler = (event) => {
     dispatchLoginForm({ type: "PASSWORD", val: event.target.value });
     // dispatchPasword({ type: "USER_INPUT", val: event.target.value });
     // setEnteredPassword(event.target.value);
     // setFormIsValid(emailState.isValid && passwordState.isValid);
-  };;
+  };
 
   const validateEmailHandler = () => {
     dispatchLoginForm({ type: "EMAIL_BLUR" });
     // dispatchEmail({ type: "INPUT_BLUR" });
     // setEmailIsValid(emailState.isValid);
-  };;
+  };
 
   const validatePasswordHandler = () => {
     dispatchLoginForm({ type: "PASSWORD_BLUR" });
     // dispatchPasword({ type: "INPUT_BLUR" });
     // setPasswordIsValid(enteredPassword.trim().length > 6);
-  };;
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
     // props.onLogin(emailState.value, passwordState.value);
-    props.onLogin(loginFormState.email, loginFormState.password);
+    authCtx.onLogin(loginFormState.email, loginFormState.password);
   };
 
   return (
